@@ -133,10 +133,11 @@ public class StoryResource {
     /**
      * {@code GET  /stories} : get all the stories.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of stories in body.
      */
     @GetMapping("/stories")
-    public List<Story> getAllStories() {
+    public List<Story> getAllStories(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Stories");
         return storyService.findAll();
     }

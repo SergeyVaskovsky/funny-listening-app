@@ -2,8 +2,6 @@ package ru.funnylistening.app.service.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,19 +61,6 @@ public class ElementServiceImpl implements ElementService {
     public List<Element> findAll() {
         log.debug("Request to get all Elements");
         return elementRepository.findAll();
-    }
-
-    /**
-     *  Get all the elements where EntireStory is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<Element> findAllWhereEntireStoryIsNull() {
-        log.debug("Request to get all elements where EntireStory is null");
-        return StreamSupport
-            .stream(elementRepository.findAll().spliterator(), false)
-            .filter(element -> element.getEntireStory() == null)
-            .collect(Collectors.toList());
     }
 
     @Override

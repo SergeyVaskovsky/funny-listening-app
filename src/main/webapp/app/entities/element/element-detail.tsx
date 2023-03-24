@@ -36,8 +36,8 @@ export const ElementDetail = () => {
             <span id="elementAudioPath">Element Audio Path</span>
           </dt>
           <dd>{elementEntity.elementAudioPath}</dd>
-          <dt>Story</dt>
-          <dd>{elementEntity.story ? elementEntity.story.id : ''}</dd>
+          <dt>Entire Story</dt>
+          <dd>{elementEntity.entireStory ? elementEntity.entireStory.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/element" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

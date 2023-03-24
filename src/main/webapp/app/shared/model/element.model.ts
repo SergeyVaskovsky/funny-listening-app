@@ -5,7 +5,7 @@ export interface IElement {
   elementText?: string;
   elementAudioPath?: string | null;
   entireStory?: IStory | null;
-  story?: IStory | null;
+  stories?: IStory[] | null;
 }
 
 export const defaultValue: Readonly<IElement> = {};

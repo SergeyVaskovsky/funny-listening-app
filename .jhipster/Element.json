@@ -24,15 +24,15 @@
     {
       "otherEntityName": "story",
       "otherEntityRelationshipName": "entireStoryElement",
-      "ownerSide": false,
       "relationshipName": "entireStory",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "story",
       "otherEntityRelationshipName": "elements",
+      "ownerSide": false,
       "relationshipName": "story",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

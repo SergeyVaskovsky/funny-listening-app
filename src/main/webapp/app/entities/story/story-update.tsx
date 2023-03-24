@@ -51,7 +51,7 @@ export const StoryUpdate = () => {
     const entity = {
       ...storyEntity,
       ...values,
-      entireStoryElement: elements.find(it => it.id.toString() === values.entireStoryElement.toString()),
+      elements: mapIdList(values.elements),
     };
 
     if (isNew) {
@@ -66,7 +66,7 @@ export const StoryUpdate = () => {
       ? {}
       : {
           ...storyEntity,
-          entireStoryElement: storyEntity?.entireStoryElement?.id,
+          elements: storyEntity?.elements?.map(e => e.id.toString()),
         };
 
   return (
@@ -95,13 +95,7 @@ export const StoryUpdate = () => {
                   required: { value: true, message: 'This field is required.' },
                 }}
               />
-              <ValidatedField
-                id="story-entireStoryElement"
-                name="entireStoryElement"
-                data-cy="entireStoryElement"
-                label="Entire Story Element"
-                type="select"
-              >
+              <ValidatedField label="Elements" id="story-elements" data-cy="elements" type="select" multiple name="elements">
                 <option value="" key="0" />
                 {elements
                   ? elements.map(otherEntity => (

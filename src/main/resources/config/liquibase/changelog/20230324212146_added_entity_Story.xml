@@ -17,11 +17,22 @@
             <column name="story_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="entire_story_element_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_story__entire_story_element_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+    </changeSet>
+
+    <changeSet id="20230324212146-1-relations" author="jhipster">
+
+        <createTable tableName="rel_story__elements">
+            <column name="elements_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="story_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="story_id, elements_id" tableName="rel_story__elements"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

@@ -49,7 +49,7 @@ export const Element = () => {
                 <th>ID</th>
                 <th>Element Text</th>
                 <th>Element Audio Path</th>
-                <th>Story</th>
+                <th>Entire Story</th>
                 <th />
               </tr>
             </thead>
@@ -63,7 +63,7 @@ export const Element = () => {
                   </td>
                   <td>{element.elementText}</td>
                   <td>{element.elementAudioPath}</td>
-                  <td>{element.story ? <Link to={`/story/${element.story.id}`}>{element.story.id}</Link> : ''}</td>
+                  <td>{element.entireStory ? <Link to={`/story/${element.entireStory.id}`}>{element.entireStory.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/element/${element.id}`} color="info" size="sm" data-cy="entityDetailsButton">
