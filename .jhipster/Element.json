@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20230324212145",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "element",
+  "fields": [
+    {
+      "fieldName": "elementText",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "elementAudioPath",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Element",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "story",
+      "otherEntityRelationshipName": "entireStoryElement",
+      "ownerSide": false,
+      "relationshipName": "entireStory",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "story",
+      "otherEntityRelationshipName": "elements",
+      "relationshipName": "story",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
