@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Element.
+    -->
+    <changeSet id="20230324205908-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="entire_story_element_id"
+                                 baseTableName="element"
+                                 constraintName="fk_element__entire_story_element_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="story"/>
+
+        <addForeignKeyConstraint baseColumnNames="element_id"
+                                 baseTableName="element"
+                                 constraintName="fk_element__element_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="story"/>
+    </changeSet>
+</databaseChangeLog>
