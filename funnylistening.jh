@@ -1,0 +1,18 @@
+entity Element {
+	elementText String required,
+    elementAudioPath String required
+}
+
+entity Story {
+	storyName String required
+}
+
+relationship OneToMany {
+	Story{entireStory} to Element{entireStoryElement} 
+}
+
+relationship OneToMany {
+	Story{elements} to Element{element}
+}
+
+service all with serviceImpl
