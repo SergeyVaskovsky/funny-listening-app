@@ -48,6 +48,10 @@ public class CacheConfiguration {
             createCache(cm, ru.funnylistening.app.domain.User.class.getName());
             createCache(cm, ru.funnylistening.app.domain.Authority.class.getName());
             createCache(cm, ru.funnylistening.app.domain.User.class.getName() + ".authorities");
+            createCache(cm, ru.funnylistening.app.domain.Element.class.getName());
+            createCache(cm, ru.funnylistening.app.domain.Story.class.getName());
+            createCache(cm, ru.funnylistening.app.domain.Story.class.getName() + ".entireStories");
+            createCache(cm, ru.funnylistening.app.domain.Story.class.getName() + ".elements");
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20230324210456",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "story",
+  "fields": [
+    {
+      "fieldName": "storyName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Story",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "element",
+      "otherEntityRelationshipName": "entireStoryElement",
+      "relationshipName": "entireStory",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "element",
+      "otherEntityRelationshipName": "element",
+      "relationshipName": "elements",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}
