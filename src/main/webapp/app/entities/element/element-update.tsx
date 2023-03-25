@@ -51,7 +51,7 @@ export const ElementUpdate = () => {
     const entity = {
       ...elementEntity,
       ...values,
-      story: stories.find(it => it.id.toString() === values.story.toString()),
+      entireStory: stories.find(it => it.id.toString() === values.entireStory.toString()),
     };
 
     if (isNew) {
@@ -66,7 +66,7 @@ export const ElementUpdate = () => {
       ? {}
       : {
           ...elementEntity,
-          story: elementEntity?.story?.id,
+          entireStory: elementEntity?.entireStory?.id,
         };
 
   return (
@@ -102,7 +102,7 @@ export const ElementUpdate = () => {
                 data-cy="elementAudioPath"
                 type="text"
               />
-              <ValidatedField id="element-story" name="story" data-cy="story" label="Story" type="select">
+              <ValidatedField id="element-entireStory" name="entireStory" data-cy="entireStory" label="Entire Story" type="select">
                 <option value="" key="0" />
                 {stories
                   ? stories.map(otherEntity => (

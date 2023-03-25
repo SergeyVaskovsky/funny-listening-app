@@ -30,14 +30,19 @@ public class Story implements Serializable {
     @Column(name = "story_name", nullable = false)
     private String storyName;
 
-    @JsonIgnoreProperties(value = { "entireStory", "story" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Element entireStoryElement;
-
-    @OneToMany(mappedBy = "story")
+    @OneToMany(mappedBy = "entireStory")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "entireStory", "story" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "entireStory", "stories" }, allowSetters = true)
+    private Set<Element> entireStoryElements = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_story__elements",
+        joinColumns = @JoinColumn(name = "story_id"),
+        inverseJoinColumns = @JoinColumn(name = "elements_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "entireStory", "stories" }, allowSetters = true)
     private Set<Element> elements = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -68,16 +73,34 @@ public class Story implements Serializable {
         this.storyName = storyName;
     }
 
-    public Element getEntireStoryElement() {
-        return this.entireStoryElement;
+    public Set<Element> getEntireStoryElements() {
+        return this.entireStoryElements;
     }
 
-    public void setEntireStoryElement(Element element) {
-        this.entireStoryElement = element;
+    public void setEntireStoryElements(Set<Element> elements) {
+        if (this.entireStoryElements != null) {
+            this.entireStoryElements.forEach(i -> i.setEntireStory(null));
+        }
+        if (elements != null) {
+            elements.forEach(i -> i.setEntireStory(this));
+        }
+        this.entireStoryElements = elements;
     }
 
-    public Story entireStoryElement(Element element) {
-        this.setEntireStoryElement(element);
+    public Story entireStoryElements(Set<Element> elements) {
+        this.setEntireStoryElements(elements);
+        return this;
+    }
+
+    public Story addEntireStoryElement(Element element) {
+        this.entireStoryElements.add(element);
+        element.setEntireStory(this);
+        return this;
+    }
+
+    public Story removeEntireStoryElement(Element element) {
+        this.entireStoryElements.remove(element);
+        element.setEntireStory(null);
         return this;
     }
 
@@ -86,12 +109,6 @@ public class Story implements Serializable {
     }
 
     public void setElements(Set<Element> elements) {
-        if (this.elements != null) {
-            this.elements.forEach(i -> i.setStory(null));
-        }
-        if (elements != null) {
-            elements.forEach(i -> i.setStory(this));
-        }
         this.elements = elements;
     }
 
@@ -102,13 +119,13 @@ public class Story implements Serializable {
 
     public Story addElements(Element element) {
         this.elements.add(element);
-        element.setStory(this);
+        element.getStories().add(this);
         return this;
     }
 
     public Story removeElements(Element element) {
         this.elements.remove(element);
-        element.setStory(null);
+        element.getStories().remove(this);
         return this;
     }
 

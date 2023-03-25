@@ -8,12 +8,10 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IElement } from 'app/shared/model/element.model';
-import { getEntities as getElements } from 'app/entities/element/element.reducer';
-import { IStory } from 'app/shared/model/story.model';
-import { getEntity, updateEntity, createEntity, reset } from './story.reducer';
+import { ILink } from 'app/shared/model/link.model';
+import { getEntity, updateEntity, createEntity, reset } from './link.reducer';
 
-export const StoryUpdate = () => {
+export const LinkUpdate = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -21,14 +19,13 @@ export const StoryUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const elements = useAppSelector(state => state.element.entities);
-  const storyEntity = useAppSelector(state => state.story.entity);
-  const loading = useAppSelector(state => state.story.loading);
-  const updating = useAppSelector(state => state.story.updating);
-  const updateSuccess = useAppSelector(state => state.story.updateSuccess);
+  const linkEntity = useAppSelector(state => state.link.entity);
+  const loading = useAppSelector(state => state.link.loading);
+  const updating = useAppSelector(state => state.link.updating);
+  const updateSuccess = useAppSelector(state => state.link.updateSuccess);
 
   const handleClose = () => {
-    navigate('/story');
+    navigate('/link');
   };
 
   useEffect(() => {
@@ -37,8 +34,6 @@ export const StoryUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
-
-    dispatch(getElements({}));
   }, []);
 
   useEffect(() => {
@@ -49,9 +44,8 @@ export const StoryUpdate = () => {
 
   const saveEntity = values => {
     const entity = {
-      ...storyEntity,
+      ...linkEntity,
       ...values,
-      elements: mapIdList(values.elements),
     };
 
     if (isNew) {
@@ -65,16 +59,15 @@ export const StoryUpdate = () => {
     isNew
       ? {}
       : {
-          ...storyEntity,
-          elements: storyEntity?.elements?.map(e => e.id.toString()),
+          ...linkEntity,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="funnyListeningApp.story.home.createOrEditLabel" data-cy="StoryCreateUpdateHeading">
-            Create or edit a Story
+          <h2 id="funnyListeningApp.link.home.createOrEditLabel" data-cy="LinkCreateUpdateHeading">
+            Create or edit a Link
           </h2>
         </Col>
       </Row>
@@ -84,28 +77,18 @@ export const StoryUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="story-id" label="ID" validate={{ required: true }} /> : null}
+              {!isNew ? <ValidatedField name="id" required readOnly id="link-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
-                label="Story Name"
-                id="story-storyName"
-                name="storyName"
-                data-cy="storyName"
+                label="Link Text"
+                id="link-linkText"
+                name="linkText"
+                data-cy="linkText"
                 type="text"
                 validate={{
                   required: { value: true, message: 'This field is required.' },
                 }}
               />
-              <ValidatedField label="Elements" id="story-elements" data-cy="elements" type="select" multiple name="elements">
-                <option value="" key="0" />
-                {elements
-                  ? elements.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/story" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/link" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">Back</span>
@@ -123,4 +106,4 @@ export const StoryUpdate = () => {
   );
 };
 
-export default StoryUpdate;
+export default LinkUpdate;

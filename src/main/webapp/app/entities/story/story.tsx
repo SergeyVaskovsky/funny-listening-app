@@ -48,7 +48,7 @@ export const Story = () => {
               <tr>
                 <th>ID</th>
                 <th>Story Name</th>
-                <th>Entire Story Element</th>
+                <th>Elements</th>
                 <th />
               </tr>
             </thead>
@@ -62,11 +62,14 @@ export const Story = () => {
                   </td>
                   <td>{story.storyName}</td>
                   <td>
-                    {story.entireStoryElement ? (
-                      <Link to={`/element/${story.entireStoryElement.id}`}>{story.entireStoryElement.id}</Link>
-                    ) : (
-                      ''
-                    )}
+                    {story.elements
+                      ? story.elements.map((val, j) => (
+                          <span key={j}>
+                            <Link to={`/element/${val.id}`}>{val.id}</Link>
+                            {j === story.elements.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
                   </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

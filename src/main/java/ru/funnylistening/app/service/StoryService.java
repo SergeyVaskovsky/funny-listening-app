@@ -2,6 +2,8 @@ package ru.funnylistening.app.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.funnylistening.app.domain.Story;
 
 /**
@@ -38,6 +40,14 @@ public interface StoryService {
      * @return the list of entities.
      */
     List<Story> findAll();
+
+    /**
+     * Get all the stories with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<Story> findAllWithEagerRelationships(Pageable pageable);
 
     /**
      * Get the "id" story.

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.funnylistening.app.domain.Story;
@@ -60,11 +62,15 @@ public class StoryServiceImpl implements StoryService {
         return storyRepository.findAll();
     }
 
+    public Page<Story> findAllWithEagerRelationships(Pageable pageable) {
+        return storyRepository.findAllWithEagerRelationships(pageable);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Story> findOne(Long id) {
         log.debug("Request to get Story : {}", id);
-        return storyRepository.findById(id);
+        return storyRepository.findOneWithEagerRelationships(id);
     }
 
     @Override

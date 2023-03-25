@@ -2,6 +2,8 @@ package ru.funnylistening.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -31,13 +33,14 @@ public class Element implements Serializable {
     @Column(name = "element_audio_path")
     private String elementAudioPath;
 
-    @JsonIgnoreProperties(value = { "entireStoryElement", "elements" }, allowSetters = true)
-    @OneToOne(mappedBy = "entireStoryElement")
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "entireStoryElements", "elements" }, allowSetters = true)
     private Story entireStory;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "entireStoryElement", "elements" }, allowSetters = true)
-    private Story story;
+    @ManyToMany(mappedBy = "elements")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "entireStoryElements", "elements" }, allowSetters = true)
+    private Set<Story> stories = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -85,12 +88,6 @@ public class Element implements Serializable {
     }
 
     public void setEntireStory(Story story) {
-        if (this.entireStory != null) {
-            this.entireStory.setEntireStoryElement(null);
-        }
-        if (story != null) {
-            story.setEntireStoryElement(this);
-        }
         this.entireStory = story;
     }
 
@@ -99,16 +96,34 @@ public class Element implements Serializable {
         return this;
     }
 
-    public Story getStory() {
-        return this.story;
+    public Set<Story> getStories() {
+        return this.stories;
     }
 
-    public void setStory(Story story) {
-        this.story = story;
+    public void setStories(Set<Story> stories) {
+        if (this.stories != null) {
+            this.stories.forEach(i -> i.removeElements(this));
+        }
+        if (stories != null) {
+            stories.forEach(i -> i.addElements(this));
+        }
+        this.stories = stories;
     }
 
-    public Element story(Story story) {
-        this.setStory(story);
+    public Element stories(Set<Story> stories) {
+        this.setStories(stories);
+        return this;
+    }
+
+    public Element addStory(Story story) {
+        this.stories.add(story);
+        story.getElements().add(this);
+        return this;
+    }
+
+    public Element removeStory(Story story) {
+        this.stories.remove(story);
+        story.getElements().remove(this);
         return this;
     }
 
