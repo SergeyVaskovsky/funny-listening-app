@@ -7,11 +7,15 @@ entity Story {
 	storyName String required
 }
 
-relationship OneToOne {
-	Story{entireStoryElement} to Element{entireStory} 
+entity Link {
+	linkText String required
 }
 
 relationship OneToMany {
+	Story{entireStoryElement} to Element{entireStory} 
+}
+
+relationship ManyToMany {
 	Story{elements} to Element{story}
 }
 
