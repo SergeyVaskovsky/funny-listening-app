@@ -54,6 +54,7 @@ public class CacheConfiguration {
             createCache(cm, ru.funnylistening.app.domain.Element.class.getName() + ".stories");
             createCache(cm, ru.funnylistening.app.domain.Story.class.getName() + ".entireStoryElements");
             createCache(cm, ru.funnylistening.app.domain.Link.class.getName());
+            createCache(cm, ru.funnylistening.app.domain.ReferalLink.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
