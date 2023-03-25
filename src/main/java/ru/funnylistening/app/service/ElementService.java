@@ -38,12 +38,6 @@ public interface ElementService {
      * @return the list of entities.
      */
     List<Element> findAll();
-    /**
-     * Get all the Element where EntireStory is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<Element> findAllWhereEntireStoryIsNull();
 
     /**
      * Get the "id" element.

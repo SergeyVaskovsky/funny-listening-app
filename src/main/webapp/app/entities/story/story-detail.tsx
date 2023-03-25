@@ -32,8 +32,17 @@ export const StoryDetail = () => {
             <span id="storyName">Story Name</span>
           </dt>
           <dd>{storyEntity.storyName}</dd>
-          <dt>Entire Story Element</dt>
-          <dd>{storyEntity.entireStoryElement ? storyEntity.entireStoryElement.id : ''}</dd>
+          <dt>Elements</dt>
+          <dd>
+            {storyEntity.elements
+              ? storyEntity.elements.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {storyEntity.elements && i === storyEntity.elements.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/story" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

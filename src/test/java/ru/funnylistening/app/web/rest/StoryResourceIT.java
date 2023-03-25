@@ -2,17 +2,25 @@ package ru.funnylistening.app.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,11 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.funnylistening.app.IntegrationTest;
 import ru.funnylistening.app.domain.Story;
 import ru.funnylistening.app.repository.StoryRepository;
+import ru.funnylistening.app.service.StoryService;
 
 /**
  * Integration tests for the {@link StoryResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class StoryResourceIT {
@@ -40,6 +50,12 @@ class StoryResourceIT {
 
     @Autowired
     private StoryRepository storyRepository;
+
+    @Mock
+    private StoryRepository storyRepositoryMock;
+
+    @Mock
+    private StoryService storyServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -140,6 +156,23 @@ class StoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(story.getId().intValue())))
             .andExpect(jsonPath("$.[*].storyName").value(hasItem(DEFAULT_STORY_NAME)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllStoriesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(storyServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restStoryMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(storyServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllStoriesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(storyServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restStoryMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(storyRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
