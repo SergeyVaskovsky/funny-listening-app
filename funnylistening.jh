@@ -7,7 +7,7 @@ entity Story {
 	storyName String required
 }
 
-entity Link {
+entity ReferalLink {
 	linkText String required
 }
 
